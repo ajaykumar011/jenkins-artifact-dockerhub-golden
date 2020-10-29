@@ -40,9 +40,9 @@ pipeline {
                     sh "cat commandResult.txt"
                     def resp = sh(returnStdout: true, 
                                   script: """
-                                  set +x
-                                  cat commandResult.txt > url
-                                  curl -w %{http_code} -o /dev/null -s http://$url
+                                    set +x
+                                    respurl=`cat commandResult.txt`
+                                    curl -w %{http_code} -o /dev/null -s http://$respurl
                                   """
                                   ).trim()
 
