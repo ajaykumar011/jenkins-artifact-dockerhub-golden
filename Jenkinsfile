@@ -31,14 +31,14 @@ pipeline {
                 script {
                     //https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
-                    def container = image.run('-p 80')
-                    def contport = container.port(80)
+                    container = image.run('-p 80')
+                    contport = container.port(80)
                     println image.id + " container is running at host port " + contport
                     println contport 
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    def resp = sh(returnStdout: true, 
+                    resp = sh(returnStdout: true, 
                                   script: """
                                     set +x
                                     respurl = `cat commandResult.txt`
