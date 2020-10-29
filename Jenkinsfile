@@ -38,9 +38,9 @@ pipeline {
                                         script: """
                                                 set -x
                                                 echo "Container port: ${contport}"
-                                                curl -w "%{http_code}" -o /dev/null -s "http://${contport}"
+                                                curl -w "%{http_code}" -o /dev/null -s http://$contport
                                                 """
-                                        )
+                                        ).trim()
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
