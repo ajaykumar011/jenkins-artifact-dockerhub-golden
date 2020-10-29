@@ -33,13 +33,15 @@ pipeline {
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
                     def contport = container.port(80)
-                    println image.id + " container is running at host port " + contport           
-                    def resp = sh(returnStdout: true,
-                                        script: """
-                                                set +x
-                                                curl -w "%{http_code}" -o /dev/null -s $contport
-                                                """
-                                        ).trim()
+                    println image.id + " container is running at host port " + contport
+                    final String url = "http://${contport}"
+                    final String resp = sh(script: "curl -s $url", returnStdout: true).trim()
+                    // def resp = sh(returnStdout: true,
+                    //                     script: """
+                    //                             set +x
+                    //                             curl -w "%{http_code}" -o /dev/null -s $contport
+                    //                             """
+                    //                     ).trim()
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
