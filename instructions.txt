@@ -56,4 +56,4 @@ ajay@digi2:~/docker-demo$ docker build -t 143787628822.dkr.ecr.ap-south-1.amazon
 
 
 // curl -w "%{http_code}" -o /dev/null -s http://\"${contport}\"
-// curl -w "%{http_code}" -o /dev/null -s http://\"${contport}\"
+// curl -w "%{http_code}" -o /dev/null -s  http://0.0.0.0:\"${contport}\"

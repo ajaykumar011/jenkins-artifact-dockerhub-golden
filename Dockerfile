@@ -19,7 +19,7 @@ RUN apt update
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install nginx, php-fpm and supervisord from ubuntu repository
-RUN apt install -y nginx php-fpm supervisor mysql-client php-mysql php-xml php-mbstring php-cli php-curl wget gnupg2 \
+RUN apt install -y curl wget unzip nginx php-fpm supervisor mysql-client php-mysql php-xml php-mbstring php-cli php-curl gnupg2 \
     phploc phpdox pdepend phpmd php-codesniffer && \
     rm -rf /var/lib/apt/lists/* && \
     apt clean
