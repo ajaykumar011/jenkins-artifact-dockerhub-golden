@@ -33,35 +33,26 @@ pipeline {
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
                     def contport = container.port(80)
-                    println image.id + " container is running at host port " + contport
-                    final String url = "http://${contport}"
-                    echo "URL is " + url
-                    //final String resp = sh(script: """curl -w "%{http_code}" -o /dev/null -s ${url}""", returnStdout: true).trim()
-                    echo "Hey My Response is :" + resp
-                    sh "curl -w %{http_code} -o /dev/null -s ${url} > commandResult"
-                    env.status = readFile('commandResult').trim()
-                    echo env.status
-                    // def resp = sh(returnStdout: true,
-                    //                     script: """
-                    //                             set +x
-                    //                             curl -w "%{http_code}" -o /dev/null -s ${url} > commandResult
-                    //                             env.status = readFile('commandResult').trim()
-                    //                             """
-                    //                     ).trim()
-                    //if ( resp == "200" ) {
-                    //   if ( env.status == "200" ) {   
-                    //     println "tutum hello world is alive and kicking!"
-                    //     docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
-                    //         image.push("${GIT_HASH}")
-                    //         if ( "${env.BRANCH_NAME}" == "master" ) {
-                    //             image.push("LATEST")
-                    //         }
-                    //     }
-                    //     currentBuild.result = "SUCCESS"
-                    // } else {
-                    //     println "Humans are mortals."
-                    //     currentBuild.result = "FAILURE"
-                    // }
+                    println image.id + " container is running at host port " + contport           
+                    def resp = sh(returnStdout: true,
+                                        script: """
+                                                set -x
+                                                curl -w "%{http_code}" -o /dev/null -s http://"${contport}"
+                                                """
+                                        ).trim()
+                    if ( resp == "200" ) {
+                        println "tutum hello world is alive and kicking!"
+                        docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
+                            image.push("${GIT_HASH}")
+                            if ( "${env.BRANCH_NAME}" == "master" ) {
+                                image.push("LATEST")
+                            }
+                        }
+                        currentBuild.result = "SUCCESS"
+                    } else {
+                        println "Humans are mortals."
+                        currentBuild.result = "FAILURE"
+                    }
                 }
             }
         }
