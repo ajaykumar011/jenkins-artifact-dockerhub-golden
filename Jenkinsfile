@@ -34,7 +34,7 @@ pipeline {
                     def container = image.run('-p 80')
                     def contport = container.port(80)
                     println image.id + " container is running at host port " + contport
-                    //def response = sh(script: 'curl https://some-host/some-service/getApi?apikey=someKey', returnStdout: true)  
+                    def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
@@ -42,7 +42,7 @@ pipeline {
                                                 
                                                 """
                                         ).trim()
-                    if ( resp == "200" ) {
+                    if ( response == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
                             image.push("${GIT_HASH}")
