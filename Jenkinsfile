@@ -42,7 +42,8 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set +x
-                                                data = readFile('commandResult.txt').trim()
+                                                result = readFile('commandResult.txt')
+                                                echo result
                                                 """
                                                 )
                     if ( resp == "200" ) {
