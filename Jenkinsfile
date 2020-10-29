@@ -38,7 +38,7 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    sh 'response=`curl -w %{http_code} -o /dev/null -s http://$(cat commandResult.txt)`'
+                    def resp = sh(returnStdout: true, script: 'response=`curl -w %{http_code} -o /dev/null -s http://$(cat commandResult.txt)`').trim
 
                     // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     // def resp = sh(returnStdout: true,
@@ -49,7 +49,7 @@ pipeline {
                     //                             echo result
                     //                             """
                     //                             )
-                    if ( response == "200" ) {
+                    if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
                             image.push("${GIT_HASH}")
