@@ -38,7 +38,7 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    curl -w %{http_code} -o /dev/null -s http://$contport
+                    sh "curl -w %{http_code} -o /dev/null -s http://$contport}"
                     // resp = sh(returnStdout: true, 
                     //               script: """
                     //                 set -x
