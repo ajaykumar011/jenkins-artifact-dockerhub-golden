@@ -38,15 +38,17 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
-                    def resp = sh(returnStdout: true,
-                                        script: """
-                                                set +x
-                                                chmod +x commandResult.txt
-                                                result=readFile "commandResult.txt"
-                                                echo result
-                                                """
-                                                )
+                    sh "resp=`curl -w %{http_code} -o /dev/null -s http://${contport}`"
+
+                    // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
+                    // def resp = sh(returnStdout: true,
+                    //                     script: """
+                    //                             set +x
+                    //                             chmod +x commandResult.txt
+                    //                             result=readFile "commandResult.txt"
+                    //                             echo result
+                    //                             """
+                    //                             )
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
