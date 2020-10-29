@@ -36,12 +36,12 @@ pipeline {
                     contport = container.port(80)
                     println image.id + " container is running at host port " + contport
                     println contport 
-                    // writeFile(file: 'commandResult.txt', text: contport)
+                    writeFile(file: 'commandResult', text: contport)
                     // sh "ls -l"
                     // sh "cat commandResult.txt"
                     // def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$contport")
 
-                    sh "${contport} > commandResult"
+                    // sh "${contport} > commandResult"
                     env.curlurl = readFile('commandResult').trim()
                     echo ${env.curlurl}
                 }
