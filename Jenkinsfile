@@ -31,64 +31,121 @@ pipeline {
                 script {
                     //https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
-                    container = image.run('-p 80')
-                    contport = container.port(80)
+                    def container = image.run('-p 80')
+                    def contport = container.port(80)
                     println image.id + " container is running at host port " + contport
                     println contport 
-                    writeFile(file: 'commandResult.txt', text: contport)
-                    sh "ls -l"
-                    sh "cat commandResult.txt"
-                    def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$contport")
-                    echo resp
-                    // resp = sh(returnStdout: true, 
-                    //               script: """
-                    //                 set -x
-                    //                 cat commandResult.txt
-                    //                 curl -w %{http_code} -o /dev/null -s http://`cat commandResult.txt`"
-                                    
-                    //               """
-                    //               ).trim()
+                    // writeFile(file: 'commandResult.txt', text: contport)
+                    // sh "ls -l"
+                    // sh "cat commandResult.txt"
+                    // def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$contport")
 
-                    // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
-                    // def resp = sh(returnStdout: true,
-                    //                     script: """
-                    //                             set +x
-                    //                             chmod +x commandResult.txt
-                    //                             result=readFile "commandResult.txt"
-                    //                             echo result
-                    //                             """
-                    //                             ).trim
-                    if ( resp == "200" ) {
-                        println "tutum hello world is alive and kicking!"
-                        docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
-                            image.push("${GIT_HASH}")
-                            if ( "${env.BRANCH_NAME}" == "master" ) {
-                                image.push("LATEST")
-                            }
-                        }
+                    sh "${contport} > commandResult"
+                    env.curlurl = readFile('commandResult').trim()
+                }
+            }
+        }
+
+        stage('Stage-Two') {
+            steps {
+                script {
+                    sh "echo ${env.curlurl}"
+                    echo "LS = ${env.curlurl}"
+
+                    
+                    env.resp = sh(script:'curl -w %{http_code} -o /dev/null -s http://$LS', returnStdout: true).trim()
+                    echo "status = ${env.resp}"
+                    // or if you access env variable in the shell command
+                    sh 'echo $status'
+
+                    if (env.resp == '200') {
                         currentBuild.result = "SUCCESS"
-                    } else {
-                        println "Humans are mortals."
+                    }
+                    else {
                         currentBuild.result = "FAILURE"
                     }
                 }
             }
         }
-    }
-    post {
-        always {
-            echo "Cleaning workspace"
-            //cleanWs()
-        }
-    }
-}
 
 
 
-// In Shell/Batch Script
-// In Shell script we can use environment variables using $Key or ${Key}. 
-// Similarly in batch we can use %Key% to access Environment Variables.
 
-// def buildJobArray = []   //local variable
+//                     if ( resp == "200" ) {
+//                         println "tutum hello world is alive and kicking!"
+//                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
+//                             image.push("${GIT_HASH}")
+//                             if ( "${env.BRANCH_NAME}" == "master" ) {
+//                                 image.push("LATEST")
+//                             }
+//                         }
+//                         currentBuild.result = "SUCCESS"
+//                     } else {
+//                         println "Humans are mortals."
+//                         currentBuild.result = "FAILURE"
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     post {
+//         always {
+//             echo "Cleaning workspace"
+//             //cleanWs()
+//         }
+//     }
+// }
 
-// buildJobArray = []  // Global variable
+// pipeline {
+//     agent any
+
+//     environment{
+//         CHECK_URL = "https://stackoverflow.com"
+//         CMD = "curl --write-out %{http_code} --silent --output /dev/null ${CHECK_URL}"
+
+//     }
+
+//     stages {
+//         stage('Stage-One') {
+//             steps {
+//                 script{
+//                     sh "${CMD} > commandResult"
+//                     env.status = readFile('commandResult').trim()
+//                 }
+//             }
+//         }
+//         stage('Stage-Two') {
+//             steps {
+//                 script {
+//                     sh "echo ${env.status}"
+//                     if (env.status == '200') {
+//                         currentBuild.result = "SUCCESS"
+//                     }
+//                     else {
+//                         currentBuild.result = "FAILURE"
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // In Shell/Batch Script
+// // In Shell script we can use environment variables using $Key or ${Key}. 
+// // Similarly in batch we can use %Key% to access Environment Variables.
+
+// // def buildJobArray = []   //local variable
+
+// // buildJobArray = []  // Global variable
