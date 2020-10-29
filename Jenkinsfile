@@ -41,7 +41,7 @@ pipeline {
                                                 http://\"${contport}\"
                                                 """
                                         ).trim()
-                    if ( resp != "200" ) {
+                    if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
                             image.push("${GIT_HASH}")
