@@ -42,9 +42,9 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
-                                                result = readFile('commandResult.txt').trim()
-                                                echo $result
-                                                curl -w "%{http_code}" -o /dev/null -s http://"${result}"
+                                                def data = readFile(file: 'commandResult.txt')
+                                                println(data)
+                                                curl -w "%{http_code}" -o /dev/null -s http://"${data}"
                                                 """
                                         ).trim()
                     if ( resp == "200" ) {
