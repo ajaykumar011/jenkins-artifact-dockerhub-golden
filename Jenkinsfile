@@ -3,11 +3,7 @@ pipeline {
     options {
         timestamps()
     }
-   define {
-       def my_map = [:] //empty map
-       def contport
-       def curlcurl //undefined shared variable
-     }
+
     environment {
         IMAGE = "ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden"
         REGISTRY = "https://registry.hub.docker.com"
