@@ -60,3 +60,7 @@ ajay@digi2:~/docker-demo$ docker build -t 143787628822.dkr.ecr.ap-south-1.amazon
                                                 result = readFile('commandResult.txt').trim()
 
                                                 curl -w %{http_code} -o /dev/null -s http://"${data}"
+
+
+
+                                                curl -w %{http_code} -o /dev/null -s http://$contport

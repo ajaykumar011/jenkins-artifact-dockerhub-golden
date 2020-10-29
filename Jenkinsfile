@@ -42,7 +42,7 @@ pipeline {
                                   script: """
                                     set -x
                                     echo $contport
-                                    curl -w %{http_code} -o /dev/null -s http://$contport
+                                    
                                   """
                                   ).trim()
 
