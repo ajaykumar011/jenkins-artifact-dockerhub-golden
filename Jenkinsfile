@@ -37,8 +37,7 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
-                                                echo "Container port: ${contport}"
-                                                curl -w "%{http_code}" -o /dev/null -s http://"${contport}"
+                                                curl -w "%{http_code}" -o /dev/null -s $contport
                                                 """
                                         ).trim()
                     if ( resp == "200" ) {
