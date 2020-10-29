@@ -41,6 +41,7 @@ pipeline {
                     resp = sh(returnStdout: true, 
                                   script: """
                                     set -x
+                                    cat commandResult.txt
                                     echo $contport
                                     
                                   """
