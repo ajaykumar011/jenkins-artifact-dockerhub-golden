@@ -38,7 +38,7 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    sh "response=`(curl -w %{http_code} -o /dev/null -s http://${contport})`"
+                    sh "response=`curl -w %{http_code} -o /dev/null -s http://$(cat commandResult.txt)`"
 
                     // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     // def resp = sh(returnStdout: true,
@@ -73,3 +73,9 @@ pipeline {
         }
     }
 }
+
+
+
+// In Shell/Batch Script
+// In Shell script we can use environment variables using $Key or ${Key}. 
+// Similarly in batch we can use %Key% to access Environment Variables.
