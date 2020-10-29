@@ -42,7 +42,7 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set +x
-                                                chmod +x commandResult.txt"
+                                                chmod +x commandResult.txt
                                                 result=readFile "commandResult.txt"
                                                 echo result
                                                 """
