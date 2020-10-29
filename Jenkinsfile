@@ -34,7 +34,7 @@ pipeline {
                     def container = image.run('-p 80')
                     def contport = container.port(80)
                     println image.id + " container is running at host port " + contport
-                    println contport > commandResult
+                    echo $contport 
                     sh "result = readFile('commandResult').trim()"
                     echo $result
                     //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
