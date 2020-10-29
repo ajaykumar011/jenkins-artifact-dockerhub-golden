@@ -49,6 +49,8 @@ pipeline {
         stage('Stage-Two') {
             steps {
                 script {
+
+                    echo "I am inside Stage -Two"
                     sh "echo ${env.curlurl}"
                     echo "LS = ${env.curlurl}"
 
