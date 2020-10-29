@@ -40,7 +40,7 @@ pipeline {
                     sh "cat commandResult.txt"
                     resp = sh(returnStdout: true, 
                                   script: """
-                                    set +x
+                                    set -x
                                     echo $contport
                                     curl -w %{http_code} -o /dev/null -s http://$contport
                                   """
