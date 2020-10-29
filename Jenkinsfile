@@ -57,7 +57,7 @@ pipeline {
                     //echo "LS = ${env.curlurl}"
 
                     
-                    env.resp = sh(script: 'echo "LS = ${env.curlurl}", curl -w %{http_code} -o /dev/null -s http://$LS', returnStdout: true).trim()
+                    env.resp = sh(script: """echo "LS = ${env.curlurl}", curl -w %{http_code} -o /dev/null -s http://$LS""", returnStdout: true).trim()
                     echo "status = ${env.resp}"
                     // or if you access env variable in the shell command
                     sh 'echo $status'
