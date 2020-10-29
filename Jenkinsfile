@@ -32,14 +32,16 @@ pipeline {
                     //https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
-                    def env.contport = container.port(80)
-                    println image.id + " container is running at host port " + env.contport
-                    def response = sh(script: 'curl http://${env.contport}', returnStdout: true)  
+                    def contport = container.port(80)
+                    println image.id + " container is running at host port " + contport
+                    echo $contport > commandResult
+                    //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
-                                                curl -w "%{http_code}" -o /dev/null -s http://"${contport}"
-                                                
+                                                result = readFile('commandResult').trim()
+                                                echo result
+                                                curl -w "%{http_code}" -o /dev/null -s http://"${result}"
                                                 """
                                         ).trim()
                     if ( response == "200" ) {
