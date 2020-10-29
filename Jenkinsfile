@@ -36,7 +36,7 @@ pipeline {
                     println image.id + " container is running at host port, " + contport
                     def resp = sh(returnStdout: true,
                                         script: """
-                                                set +x                                                
+                                                set -x                                                
                                                 curl -w "%{http_code}" -o /dev/null -s http://${contport}
                                                 """
                                         ).trim()
