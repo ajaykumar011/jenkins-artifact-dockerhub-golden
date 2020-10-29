@@ -52,3 +52,8 @@ ajay@ansible-c:~/jenkins-docker-agent-2$ docker build -t ajaykumar011/docker-as-
 
 Building for ECR
 ajay@digi2:~/docker-demo$ docker build -t 143787628822.dkr.ecr.ap-south-1.amazonaws.com/docker-as-agent-in-jenkins:1.0.1 ./nginx-phpfpm/.
+
+
+
+// curl -w "%{http_code}" -o /dev/null -s http://\"${contport}\"
+// curl -w "%{http_code}" -o /dev/null -s http://\"${contport}\"

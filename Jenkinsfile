@@ -36,9 +36,8 @@ pipeline {
                     println image.id + " container is running at host port, " + contport
                     def resp = sh(returnStdout: true,
                                         script: """
-                                                set +x
-                                                curl -w "%{http_code}" -o /dev/null -s \
-                                                http://\"${contport}\"
+                                                set -x
+                                                curl -w "%{http_code}" -o /dev/null -s  http://0.0.0.0:\"${contport}\"
                                                 """
                                         ).trim()
                     if ( resp == "200" ) {
