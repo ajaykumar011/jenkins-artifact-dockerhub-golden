@@ -38,14 +38,15 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    resp = sh(returnStdout: true, 
-                                  script: """
-                                    set -x
-                                    cat commandResult.txt
-                                    curl -w %{http_code} -o /dev/null -s http://`cat commandResult.txt`"
+                    curl -w %{http_code} -o /dev/null -s http://$contport
+                    // resp = sh(returnStdout: true, 
+                    //               script: """
+                    //                 set -x
+                    //                 cat commandResult.txt
+                    //                 curl -w %{http_code} -o /dev/null -s http://`cat commandResult.txt`"
                                     
-                                  """
-                                  ).trim()
+                    //               """
+                    //               ).trim()
 
                     // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     // def resp = sh(returnStdout: true,
