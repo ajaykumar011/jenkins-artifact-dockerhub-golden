@@ -33,8 +33,8 @@ pipeline {
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
                     def contport = container.port(80)
-                    println image.id + " container is running at host port, " + contport
-                    def resp = sh(script: 'curl -w "%{http_code}" -o /dev/null -s http://\"${contport}\"', returnStdout: true)
+                    println image.id + " container is running at host port " + contport
+                    def resp = sh(script: 'curl -w "%{http_code}" -o /dev/null -s http://$contport', returnStdout: true)
 
                     // def resp = sh(returnStdout: true,
                     //                     script: """
