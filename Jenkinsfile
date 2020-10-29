@@ -44,9 +44,9 @@ pipeline {
                                                 set -x
                                                 def data = readFile(file: 'commandResult.txt')
                                                 println(data)
-                                                curl -w "%{http_code}" -o /dev/null -s http://"${data}"
+                                                
                                                 """
-                                        ).trim()
+                                        )
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
