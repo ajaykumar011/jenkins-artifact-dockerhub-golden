@@ -36,13 +36,13 @@ pipeline {
                     println image.id + " container is running at host port " + contport
                     echo $contport > commandResult
                     result = readFile('commandResult').trim()
-                    echo result
+                    echo $result
                     //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
                                                 result = readFile('commandResult').trim()
-                                                echo result
+                                                echo $result
                                                 curl -w "%{http_code}" -o /dev/null -s http://"${result}"
                                                 """
                                         ).trim()
