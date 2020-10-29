@@ -43,6 +43,7 @@ pipeline {
                                         script: """
                                                 set +x
                                                 #result = readFile('commandResult.txt')
+                                                chmod +x "${env.WORKSPACE}/commandResult.txt"
                                                 result=readFile "${env.WORKSPACE}/commandResult.txt"
                                                 echo result
                                                 """
