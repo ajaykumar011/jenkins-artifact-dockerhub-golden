@@ -41,8 +41,8 @@ pipeline {
                     resp = sh(returnStdout: true, 
                                   script: """
                                     set +x
-                                    respurl = `cat commandResult.txt`
-                                    curl -w %{http_code} -o /dev/null -s http://$respurl
+                                    echo $contport
+                                    curl -w %{http_code} -o /dev/null -s http://$contport
                                   """
                                   ).trim()
 
@@ -85,3 +85,7 @@ pipeline {
 // In Shell/Batch Script
 // In Shell script we can use environment variables using $Key or ${Key}. 
 // Similarly in batch we can use %Key% to access Environment Variables.
+
+// def buildJobArray = []   //local variable
+
+// buildJobArray = []  // Global variable
