@@ -42,7 +42,7 @@ pipeline {
                                   script: """
                                     set -x
                                     cat commandResult.txt
-                                    curl -w %{http_code} -o /dev/null -s http://`$(cat commandResult.txt)}`
+                                    curl -w %{http_code} -o /dev/null -s http://"$(cat commandResult.txt)"
                                     
                                   """
                                   ).trim()
