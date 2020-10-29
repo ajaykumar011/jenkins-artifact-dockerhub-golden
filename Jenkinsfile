@@ -41,12 +41,11 @@ pipeline {
                     //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     def resp = sh(returnStdout: true,
                                         script: """
-                                                set -x
+                                                set +x
                                                 def data = readFile(file: 'commandResult.txt')
                                                 println(data)
-                                                
                                                 """
-                                        )
+                                                )
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
