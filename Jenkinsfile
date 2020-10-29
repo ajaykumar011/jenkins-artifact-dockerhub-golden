@@ -37,7 +37,7 @@ pipeline {
                     final String url = "http://${contport}"
                     echo "URL is " + url
                     final String resp = sh(script: """curl -w "%{http_code}" -o /dev/null -s ${url}""", returnStdout: true).trim()
-                    echo "Hey My Response is :" + response
+                    echo "Hey My Response is :" + resp
                     // def resp = sh(returnStdout: true,
                     //                     script: """
                     //                             set +x
