@@ -1,0 +1,54 @@
+To create the Docker custom image, go to the project directory 'nginx-image' and run the 'docker build' command as below.
+
+$docker build -t nginx-image .
+
+The command will download the base-image Ubuntu 20.04 and create a new custom image with the name 'nginx-image.
+Once all process is completed, check the list of available Docker image on your system using the following command.
+
+$docker image ls
+ajay@ansible-c:~/jenkins-docker-agent-2$ docker image ls
+REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+nginx-image                 latest              08e54d7bc6c3        8 seconds ago       240MB
+ubuntu                      20.04               d70eaf7277ea        2 days ago          72.9MB
+
+As can be seen, the new custom Docker image 'nginx-image' has been created. Next, we will run the new Docker container based on the 'nginx-image'.
+On your local machine, create a new directory named 'app' that will be used to store all web files.
+
+$mkdir -p /app
+
+Now create a new container named test-container using the docker run command below.
+
+$docker run -d -v /app:/var/www/html -p 8080:80 --name test-container nginx-image
+
+List all the containers 
+
+$docker ps
+
+curl -I "$(curl ifconfig.me)"
+
+
+ajay@ansible-c:~$ docker exec -it test-container3 bash
+
+root@d8a5062bbfca:/# php -v
+PHP 7.4.3 (cli) (built: Oct  6 2020 15:47:56) ( NTS )
+
+root@d8a5062bbfca:/# nginx -v
+nginx version: nginx/1.18.0 (Ubuntu)
+
+Userful commands 
+#################################################################
+# docker-compose up --build --force-recreate -d
+# curl  "$(curl ifconfig.me)"
+# docker-compose down -v --rmi=all
+# docker system prune -f
+# docker stop $(docker ps -aq)
+# docker rm $(docker ps -aq)
+# docker rmi --force $(docker images -q)
+
+#################################################################
+Building Ready made nginx-phpfpm docker (not mysql)
+ONly building for Dockerhub (point to the dockerfile ./nginx-phpfpm/.)
+ajay@ansible-c:~/jenkins-docker-agent-2$ docker build -t ajaykumar011/docker-as-agent-in-jenkins:latest ./nginx-phpfpm/.
+
+Building for ECR
+ajay@digi2:~/docker-demo$ docker build -t 143787628822.dkr.ecr.ap-south-1.amazonaws.com/docker-as-agent-in-jenkins:1.0.1 ./nginx-phpfpm/.
