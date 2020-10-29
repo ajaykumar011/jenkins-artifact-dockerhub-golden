@@ -43,7 +43,7 @@ pipeline {
                                         script: """
                                                 set +x
                                                 #result = readFile('commandResult.txt')
-                                                def result = readFile "${env.WORKSPACE}/commandResult.txt"
+                                                result=readFile "${env.WORKSPACE}/commandResult.txt"
                                                 echo result
                                                 """
                                                 )
