@@ -38,7 +38,13 @@ pipeline {
                     writeFile(file: 'commandResult.txt', text: contport)
                     sh "ls -l"
                     sh "cat commandResult.txt"
-                    def resp = sh(returnStdout: true, script: 'response=`curl -w %{http_code} -o /dev/null -s http://$(cat commandResult.txt)`').trim
+                    def resp = sh(returnStdout: true, 
+                                  script: """
+                                  set +x
+                                  cat commandResult.txt > url
+                                  curl -w %{http_code} -o /dev/null -s http://$url
+                                  """
+                                  ).trim()
 
                     // //def response = sh(script: 'curl http://${contport}', returnStdout: true)  
                     // def resp = sh(returnStdout: true,
@@ -48,7 +54,7 @@ pipeline {
                     //                             result=readFile "commandResult.txt"
                     //                             echo result
                     //                             """
-                    //                             )
+                    //                             ).trim
                     if ( resp == "200" ) {
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
