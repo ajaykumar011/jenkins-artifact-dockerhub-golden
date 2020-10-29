@@ -43,7 +43,6 @@ pipeline {
                                         script: """
                                                 set +x
                                                 data = readFile('commandResult.txt').trim()
-                                                println(data)
                                                 """
                                                 )
                     if ( resp == "200" ) {
