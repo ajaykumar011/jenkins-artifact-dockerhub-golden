@@ -41,7 +41,7 @@ pipeline {
                     def resp = sh(returnStdout: true, 
                                   script: """
                                     set +x
-                                    respurl=`cat commandResult.txt`
+                                    respurl = `cat commandResult.txt`
                                     curl -w %{http_code} -o /dev/null -s http://$respurl
                                   """
                                   ).trim()
