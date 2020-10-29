@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
-                    def container = image.run('-p 81')
+                    def container = image.run('-p 80')
                     def contport = container.port(80)
                     println image.id + " container is running at host port, " + contport
                     def resp = sh(returnStdout: true,
