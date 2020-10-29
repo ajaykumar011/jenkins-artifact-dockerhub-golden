@@ -4,7 +4,7 @@ pipeline {
         timestamps()
     }
     environment {
-        IMAGE = "ajaykumar011/docker-as-agent-in-jenkins"
+        IMAGE = "ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden"
         REGISTRY = "https://registry.hub.docker.com"
     }
     stages {
@@ -29,7 +29,7 @@ pipeline {
         stage('test') {
             steps {
                 script {
-                    // https://hub.docker.com/repository/docker/ajaykumar011/docker-as-agent-in-jenkins
+                    // https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     def container = image.run('-p 81')
                     def contport = container.port(80)
                     println image.id + " container is running at host port, " + contport
