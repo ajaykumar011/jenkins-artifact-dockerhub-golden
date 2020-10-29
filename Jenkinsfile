@@ -37,7 +37,7 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set -x
-                                                curl -w "%{http_code}" -o /dev/null -s $contport
+                                                curl -w "%{http_code}" -o /dev/null -s $contport.toInteger()
                                                 """
                                         ).trim()
                     if ( resp == "200" ) {
