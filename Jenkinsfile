@@ -38,7 +38,6 @@ pipeline {
                                         script: """
                                                 set +x
                                                 curl -w "%{http_code}" -o /dev/null -s $contport
-                                                echo $?
                                                 """
                                         ).trim()
                     if ( resp == "200" ) {
