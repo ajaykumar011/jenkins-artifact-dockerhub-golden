@@ -36,15 +36,19 @@ pipeline {
                     println image.id + " container is running at host port " + contport
                     final String url = "http://${contport}"
                     echo "URL is " + url
-                    final String resp = sh(script: """curl -w "%{http_code}" -o /dev/null -s ${url}""", returnStdout: true).trim()
+                    //final String resp = sh(script: """curl -w "%{http_code}" -o /dev/null -s ${url}""", returnStdout: true).trim()
                     echo "Hey My Response is :" + resp
+                    sh "curl -w %{http_code} -o /dev/null -s ${url} > commandResult"
+                    env.status = readFile('commandResult').trim()
                     // def resp = sh(returnStdout: true,
                     //                     script: """
                     //                             set +x
-                    //                             curl -w "%{http_code}" -o /dev/null -s $contport
+                    //                             curl -w "%{http_code}" -o /dev/null -s ${url} > commandResult
+                    //                             env.status = readFile('commandResult').trim()
                     //                             """
                     //                     ).trim()
-                    if ( resp == "200" ) {
+                    //if ( resp == "200" ) {
+                      if ( env.status == "200" ) {   
                         println "tutum hello world is alive and kicking!"
                         docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
                             image.push("${GIT_HASH}")
