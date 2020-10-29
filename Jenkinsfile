@@ -36,7 +36,7 @@ pipeline {
                     println image.id + " container is running at host port " + contport
                     final String url = "http://${contport}"
                     final String resp = sh(script: "curl -s $url", returnStdout: true).trim()
-                    echo response
+                    echo "Hey My Response is :" + response
                     // def resp = sh(returnStdout: true,
                     //                     script: """
                     //                             set +x
