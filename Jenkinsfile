@@ -42,7 +42,7 @@ pipeline {
                     def resp = sh(returnStdout: true,
                                         script: """
                                                 set +x
-                                                def data = readFile(file: 'commandResult.txt')
+                                                data = readFile('commandResult.txt').trim()
                                                 println(data)
                                                 """
                                                 )
