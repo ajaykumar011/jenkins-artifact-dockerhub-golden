@@ -43,7 +43,7 @@ pipeline {
 
                     // sh "${contport} > commandResult"
                     env.curlurl = readFile('commandResult').trim()
-                    echo ${env.curlurl}
+                    //echo ${env.curlurl}
                 }
             }
         }
