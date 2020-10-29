@@ -40,6 +40,7 @@ pipeline {
                     echo "Hey My Response is :" + resp
                     sh "curl -w %{http_code} -o /dev/null -s ${url} > commandResult"
                     env.status = readFile('commandResult').trim()
+                    echo env.status
                     // def resp = sh(returnStdout: true,
                     //                     script: """
                     //                             set +x
@@ -48,19 +49,19 @@ pipeline {
                     //                             """
                     //                     ).trim()
                     //if ( resp == "200" ) {
-                      if ( env.status == "200" ) {   
-                        println "tutum hello world is alive and kicking!"
-                        docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
-                            image.push("${GIT_HASH}")
-                            if ( "${env.BRANCH_NAME}" == "master" ) {
-                                image.push("LATEST")
-                            }
-                        }
-                        currentBuild.result = "SUCCESS"
-                    } else {
-                        println "Humans are mortals."
-                        currentBuild.result = "FAILURE"
-                    }
+                    //   if ( env.status == "200" ) {   
+                    //     println "tutum hello world is alive and kicking!"
+                    //     docker.withRegistry("${env.REGISTRY}", 'docker-hub') {
+                    //         image.push("${GIT_HASH}")
+                    //         if ( "${env.BRANCH_NAME}" == "master" ) {
+                    //             image.push("LATEST")
+                    //         }
+                    //     }
+                    //     currentBuild.result = "SUCCESS"
+                    // } else {
+                    //     println "Humans are mortals."
+                    //     currentBuild.result = "FAILURE"
+                    // }
                 }
             }
         }
