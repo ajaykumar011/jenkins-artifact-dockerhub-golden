@@ -41,7 +41,7 @@ pipeline {
                     def someGroovyVar = 'Hello world'
                     withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
                         def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
-                        echo "Result is here: " result
+                        echo result
                     }
                     // sh "ls -l"
                     // sh "cat commandResult.txt"
