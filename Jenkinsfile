@@ -41,7 +41,8 @@ pipeline {
                     def someGroovyVar = 'Hello world'
                     withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
                         //def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
-                        def result = sh(script: '/usr/bin/curl -w %{http_code} -s http://$VAR2', returnStdout: true).trim()
+                        def result = sh(script: "/usr/bin/curl -w %{http_code} -o /dev/null -s ${VAR2}", returnStdout: true)
+                       // curl --write-out %{http_code} --silent --output /dev/null ${CHECK_URL}
                         echo result
                     }
                     // sh "ls -l"
