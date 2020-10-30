@@ -7,7 +7,19 @@ pipeline {
 
     }
 
+
+
     stages {
+        stage('Stage-Zero') {
+            steps {
+            writeFile file: 'version.txt', text: 'version=6.22.0'
+            withEnv(readFile('version.txt').split('\n') as List) {
+            sh "echo ${version}"
+            }
+        }
+    }
+
+
         stage('Stage-One') {
             steps {
                 script{

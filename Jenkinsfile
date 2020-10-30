@@ -33,10 +33,16 @@ pipeline {
                     //https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
-                    contport = container.port(80)
+                    def contport = container.port(80)
                     println image.id + " container is running at host port " + contport
                     println contport 
                     writeFile(file: 'commandResult', text: contport)
+
+                    def someGroovyVar = 'Hello world'
+                    withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
+                        def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
+                        echo "Result is here: " result
+                    }
                     // sh "ls -l"
                     // sh "cat commandResult.txt"
                     // def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$contport")
@@ -48,30 +54,30 @@ pipeline {
             }
         }
 
-        stage('Stage-Two') {
-            steps {
-                script {
+        // stage('Stage-Two') {
+        //     steps {
+        //         script {
 
-                    echo "I am inside Stage -Two"
-                    //sh "echo ${env.curlurl}"
-                    echo "LS = ${env.curlurl}"
-                    //echo "LS = ${env.curlurl}"
-                    curl -w %{http_code} -o /dev/null -s "http://${LS}"
+        //             echo "I am inside Stage -Two"
+        //             //sh "echo ${env.curlurl}"
+        //             echo "LS = ${env.curlurl}"
+        //             //echo "LS = ${env.curlurl}"
+        //             curl -w %{http_code} -o /dev/null -s http://${LS}
                     
-                    //env.resp = sh(script: 'curl -w %{http_code} -o /dev/null -s http://$LS', returnStdout: true).trim()
-                    echo "status = ${env.resp}"
-                    // or if you access env variable in the shell command
-                    sh 'echo $status'
+        //             //env.resp = sh(script: 'curl -w %{http_code} -o /dev/null -s http://$LS', returnStdout: true).trim()
+        //             echo "status = ${env.resp}"
+        //             // or if you access env variable in the shell command
+        //             sh 'echo $status'
 
-                    if (env.resp == '200') {
-                        currentBuild.result = "SUCCESS"
-                    }
-                    else {
-                        currentBuild.result = "FAILURE"
-                    }
-                }
-            }
-        }
+        //             if (env.resp == '200') {
+        //                 currentBuild.result = "SUCCESS"
+        //             }
+        //             else {
+        //                 currentBuild.result = "FAILURE"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
