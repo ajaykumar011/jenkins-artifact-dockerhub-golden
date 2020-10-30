@@ -29,7 +29,7 @@ pipeline {
         }
         stage('test') {
             steps {
-               // script {
+                script {
                     //https://hub.docker.com/repository/docker/ajaykumar011/jenkins-artifact-s3-jfrog-dhub-golden
                     //def container = image.run('-p 81:80 -v app:/var/www/html')
                     def container = image.run('-p 80')
@@ -41,7 +41,7 @@ pipeline {
                     def someGroovyVar = 'Hello world'
                     withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
                         //def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
-                        def result = sh(script: 'curl -w %{http_code} -o /dev/null -s http://$VAR2', returnStdout: true).trim()
+                        def result = sh(script: '/usr/bin/curl -w %{http_code} -o /dev/null -s http://$VAR2', returnStdout: true).trim()
                         echo result
                     }
                     // sh "ls -l"
@@ -51,7 +51,7 @@ pipeline {
                     // sh "${contport} > commandResult"
                     env.curlurl = readFile('commandResult').trim()
                     //echo ${env.curlurl}
-               // }
+               }
             }
         }
 
