@@ -35,13 +35,14 @@ pipeline {
                     def container = image.run('-p 80')
                     def contport = container.port(80)
                     println image.id + " container is running at host port " + contport
-                    println contport 
-                    writeFile(file: 'commandResult', text: contport)
+                    String contports = "$contport"
+                    println contports
+                    writeFile(file: 'commandResult', text: contports)
 
                     def someGroovyVar = 'Hello world'
-                    withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
+                    withEnv(['VAR1=VALUE ONE',"VAR2=${contports}"]) {
                         //def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
-                        def result = sh(script: '/usr/bin/curl -w %{http_code} -o /dev/null -s "${VAR2}"', returnStdout: true)
+                        def result = sh(script: 'curl -w %{http_code} -o /dev/null -s ${VAR2}', returnStdout: true)
                         echo result
                     }
                     // sh "ls -l"
