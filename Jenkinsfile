@@ -40,12 +40,13 @@ pipeline {
 
                     def someGroovyVar = 'Hello world'
                     withEnv(['VAR1=VALUE ONE',"VAR2=${contport}"]) {
-                        def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
+                        //def result = sh(script: 'echo $VAR1; echo $VAR2', returnStdout: true)
+                        def result = sh(script: 'curl -w %{http_code} -o /dev/null -s http://$VAR2', returnStdout: true)
                         echo result
                     }
                     // sh "ls -l"
                     // sh "cat commandResult.txt"
-                    // def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$contport")
+                    // def resp = sh(returnStdout: true, script: "curl -w %{http_code} -o /dev/null -s http://$VAR2")
 
                     // sh "${contport} > commandResult"
                     env.curlurl = readFile('commandResult').trim()
